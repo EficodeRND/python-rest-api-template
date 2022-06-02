@@ -1,0 +1,6 @@
+invoke
+requests
+flask
+flask-restx
+flask-swagger-ui
+gunicorn
