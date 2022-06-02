@@ -6,7 +6,7 @@ from flask_restx import Namespace, Resource, fields
 from app.service import hello_world_service
 from app.util.flask_decorators import require_auth
 
-ns = Namespace('hello', description='Hello api')
+ns = Namespace('api', description='Hello api')
 
 resource_fields = ns.model('Resource', {
     'name': fields.String(example="John")
