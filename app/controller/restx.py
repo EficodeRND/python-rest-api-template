@@ -1,7 +1,9 @@
 import logging as log
+import os
 
 from flask_restx import Api
 from flask_swagger_ui import get_swaggerui_blueprint
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 api = Api(version='1.0', title='Python REST API',
           description='Template for building Python REST APIs')
@@ -15,16 +17,19 @@ def default_error_handler(_):
 
 
 def init(app):
-    # app.config['SERVER_NAME'] = server_name + ':' + str(cfg.get('port', 5000))
+    app.wsgi_app = ProxyFix(app.wsgi_app)
     app.config['SWAGGER_UI_DOC_EXPANSION'] = 'list'
-    app.config['RESTPLUS_VALIDATE'] = True
-    app.config['RESTPLUS_MASK_SWAGGER'] = False
+    app.config['RESTX_VALIDATE'] = True
+    app.config['RESTX_MASK_SWAGGER'] = False
     app.config['ERROR_404_HELP'] = False
 
-    api_root = ''
-    swagger_url = f"{api_root}/api/docs"  # URL for exposing Swagger UI (without trailing '/')
+    server_name = os.environ.get('BACKEND_API_URL', None)
+    if server_name is not None:
+        app.config['SERVER_NAME'] = server_name
+
+    swagger_url = f"/docs"  # URL for exposing Swagger UI (without trailing '/')
     log.debug("Registering swagger ui: {}".format(swagger_url))
-    api_url = f"{api_root}/swagger.json"  # Our API url (can of course be a local resource)
+    api_url = f"/swagger.json"  # Our API url (can of course be a local resource)
     log.debug("Registering swagger api: %s", api_url)
 
     # Call factory function to create our blueprint
