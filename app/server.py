@@ -16,7 +16,7 @@ app.register_blueprint(blueprint)
 
 
 def start_dev_server():
-    app.run("0.0.0.0", port=8080, debug=True)
+    app.run("0.0.0.0", port=9000, debug=True)
 
 
 if __name__ == "__main__":
