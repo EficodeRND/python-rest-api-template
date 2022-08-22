@@ -4,3 +4,4 @@ flask
 flask-restx
 flask-swagger-ui
 gunicorn
+werkzeug==2.0.*
