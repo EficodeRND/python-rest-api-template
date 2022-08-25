@@ -15,4 +15,6 @@ COPY app/ ./app
 # Clean up the Python compilation cache
 RUN find ./ -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 
+ENV PORT=9000
+
 CMD invoke -c prod_tasks prodserver -p $PORT
